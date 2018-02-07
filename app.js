@@ -1,14 +1,35 @@
 const Evernote = require('Evernote');
 var developerToken = require('./config.json').developerToken;
 
-var client = new Evernote.Client({ token: developerToken });
+let notes = {};
+
 
 // Set up the NoteStore client 
+var client = new Evernote.Client({ token: developerToken });
 var noteStore = client.getNoteStore();
+var userStore = client.getUserStore();
 
-// List notebooks
-noteStore.listNotebooks().then(function (notebooks) {
-    for (var i in notebooks) {
-        console.log("Notebook: " + notebooks[i].name);
-    }
+// Store all notes (when number of notes <= 500)
+var filter = new Evernote.NoteStore.NoteFilter({});
+var noteListSpec = new Evernote.NoteStore.NotesMetadataResultSpec({
+    includeTitle: true,
+    includeContentLength: true,
+    includeNotebookGuid: true
 });
+var noteSpec = new Evernote.NoteStore.NoteResultSpec({
+    includeContent: true
+});
+noteStore.findNotesMetadata(filter, 0, 500, noteListSpec).then(notelist => {
+    notelist.notes.forEach(note => {
+        var guid = note['guid'];
+        noteStore.getNoteWithResultSpec(guid, noteSpec).then(nt => {
+            // Store the note by guid
+            ['title', 'content', 'tagGuids', 'tagNames'].forEach(attr => {
+                if (typeof notes[nt.guid] === 'undefined') {
+                    notes[nt.guid] = {};
+                }
+                notes[nt.guid][attr] = nt[attr];
+            });
+        }).then(() => { console.log(notes) });
+    });
+})
