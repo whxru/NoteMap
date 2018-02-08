@@ -1,4 +1,4 @@
-const Evernote = require('Evernote');
+const Evernote = require('evernote');
 
 /**
  * Package for common methods of accessing contents in an evernote account.

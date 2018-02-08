@@ -1,4 +1,4 @@
-const Evernote = require('Evernote');
+const Evernote = require('evernote');
 const { EvernoteAccount } = require('../evernote/evernote-account')
 
 module.exports = {
