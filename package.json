@@ -1,21 +1,18 @@
 {
-  "name": "electron-quick-start",
+  "name": "NoteMap",
   "version": "1.0.0",
-  "description": "A minimal Electron application",
+  "description": "A cross-platform application which uses mindmap to manage notes in an account of Evernote.",
   "main": "main.js",
   "scripts": {
     "start": "electron ."
   },
-  "repository": "https://github.com/electron/electron-quick-start",
+  "repository": "https://github.com/whxru/NoteMap",
   "keywords": [
     "Electron",
-    "quick",
-    "start",
-    "tutorial",
+	"Evernote",
+    "MindMap",
     "demo"
   ],
-  "author": "GitHub",
-  "license": "CC0-1.0",
   "devDependencies": {
     "electron": "~1.7.8"
   }
