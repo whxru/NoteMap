@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title> MindNote </title>
+	<link type="text/css" rel="stylesheet" href="style/jsmind.css" />
+	<style type="text/css">
+	#jsmind_container{
+            width:800px;
+            height:500px;
+            border:solid 1px #ccc;
+            /*background:#f4f4f4;*/
+            background:#f4f4f4;
+        }
+	</style>
+  </head>
+  <body>
+	<div id="jsmind_container"></div>
+    <!-- All of the Node.js APIs are available in this renderer process. -->
+	<script type="text/javascript" src="js/jsmind.js"></script>
+    <script>
+		var mind = {
+			'meta':{
+				'name':'MindNote',
+				'author':'MindNote',
+			},
+			'format':'node_array',
+			'data':[
+				{'id':'root', 'isroot':true, 'topic':'Evernote'},
+				{'id':'nb', 'parentid':'root','topic':'Notebook'},
+				{'id':'n1','parentid':'nb','topic':'Note 1'},
+				{'id':'n2','parentid':'nb','topic':'Note 2'},
+				{'id':'n3','parentid':'nb','topic':'Note 3'},
+				{'id':'n4','parentid':'nb','topic':'Note 4'}
+			]
+		};
+		var options = {
+			container:'jsmind_container',
+			theme:'orange',
+			editable:false
+		};
+		var jm = new jsMind(options);
+		jm.show(mind);
+		console.log('started');
+    </script>
+  </body>
+</html>
