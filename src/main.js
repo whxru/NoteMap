@@ -9,7 +9,9 @@ app.on('ready', () => {
 
     mainWindow = new BrowserWindow({
         width: 800,
-        height: 600
+        height: 600,
+        frame: false,
+        hasShadow: true
     });
 
     mainWindow.loadURL(url.format({
@@ -18,7 +20,7 @@ app.on('ready', () => {
         slashes: true
     }));
 
-    mainWindow.openDevTools();
+    // mainWindow.openDevTools();
 
     mainWindow.on('closed', () => {
         mainWindow = null;
