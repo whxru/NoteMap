@@ -7,6 +7,7 @@
     "start": "electron ."
   },
   "dependencies": {
-    "echarts": "^4.0.2"
+    "echarts": "^4.0.2",
+    "materialize-css": "^0.100.2"
   }
 }
