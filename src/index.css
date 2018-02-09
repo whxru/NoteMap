@@ -1,9 +1,107 @@
+/* Material Icon */
+@font-face {
+  font-family: 'Material Icons';
+  font-style: normal;
+  font-weight: 400;
+  src: url('../resources/material-icon.woff2') format('woff2');
+}
+
+.material-icons {
+  font-family: 'Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-feature-settings: 'liga';
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Clear default style */
 * {
     margin: 0;
     padding: 0;
+    user-select: none;
 }
 
+nav i,
+nav i.material-icons {
+    height: 45px;
+    line-height: 45px;
+}
+
+
+/* Layout of the app */
+nav {
+    width: 100vw;
+    height: 45px;
+}
 #graph-container {
     width: 100vw;
-    height: 100vh;
+    height: calc(100vh - 47px);
+}
+
+/* Graph */
+#graph-container {
+    background-color: white;
+}
+
+/* Navigator */
+nav {
+    display: flex;
+    box-sizing: content-box;
+    justify-content: space-between;
+
+    background-color: rgb(242, 245, 244);
+    border-bottom: 2px solid rgb(230, 235, 233);
+    color: rgb(35, 42, 39);
+}
+nav > div {
+    height: 100%;
+}
+
+#menu-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    color: white;
+    background-color: rgb(2, 195, 134);
+    transition: all 0.5s;
+    padding: 0px 25px;
+}
+#menu-btn > i { margin-right: 5px; }
+
+#title {
+    line-height: 45px;
+    vertical-align: middle;
+    color: #a3a3a3;
+}
+
+nav > div:last-child i.material-icons {
+    font-size: 1rem;
+    color: rgb(163, 173, 187);
+}
+nav > div:last-child > span {
+    float: left;
+    font-size: 1rem;
+    height: 100%;
+    padding: 0px 15px;
+    transition: all 0.3s;
+}
+#menu-btn:hover,
+nav > div:last-child > span:hover{
+    cursor: pointer;
+    box-shadow: 0 6px 10px 0 rgba(0,0,0,0.14), 0 1px 18px 0 rgba(0,0,0,0.12), 0 3px 5px -1px rgba(0,0,0,0.3);
+}
+#close:hover {
+    background-color: rgb(255, 76, 88);
+}
+#close:hover > i {
+    color: white;
 }
