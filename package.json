@@ -1,9 +1,12 @@
 {
-    "name": "NoteMap",
-    "description": "A cross-platform application which uses mindmap to manage notes in an account of Evernote.",
-    "version": "0.1.0",
-    "main": "src/main.js",
-	"scripts": {
-		"start": "electron ." 
-	}
+  "name": "NoteMap",
+  "description": "A cross-platform application which uses mindmap to manage notes in an account of Evernote.",
+  "version": "0.1.0",
+  "main": "src/main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "dependencies": {
+    "echarts": "^4.0.2"
+  }
 }
