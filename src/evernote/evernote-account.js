@@ -18,6 +18,10 @@ class EvernoteAccount {
 
     /**
      * Get all notes in current account.
+     * @example Example of using account.
+     * account.getAllNotes().then(notes => {
+     *     console.log(notes);
+     * })
      * @returns {promise} Promise object reprsents all notes in current account
      * @memberof EvernoteAccount
      */
