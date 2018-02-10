@@ -1,6 +1,8 @@
 const Evernote = require('evernote');
 const devToken = require('../../config.json').developerToken;
 const {EvernoteAccount} = require('./evernote-account.js');
+var nodeConsole = require('console');
+var myConsole = new nodeConsole.Console(process.stdout, process.stderr);
 
 function getInAppLink(noteId, uid, shardId){
     return `evernote:///view/${uid}/${shardId}/${noteId}/${noteId}/`;
@@ -37,25 +39,30 @@ function showGraph(graph) {
                         G[noteId].push(curLink[0].split('\/')[6]);
                     }
                 }
+                drawGraph(graph, G, myNotes);
             });
         });
     });
-    drawGraph(graph, G, myNotes);
+}
+
+function drawGraph(graph, G, myNotes){
+    myConsole.log(G);
+    myConsole.log(graph);
+//    myConsole.log(myNotes);
+    for(v in G){
+        myConsole.log('\nv ==== ' + v);
+   //     graph.addNode('sss').refresh();
+        graph.addNode(myNotes[v].title).refresh();
+    }
+    for(u in G){
+        for(v of G[u]){
+            graph.addEdge(myNotes[u].title, myNotes[v].title).refresh();
+        }
+    }
+   // graph.refresh();
+
 }
 
 
-module.exports = {
-  function drawGraph(graph, G, myNotes){
-      for(v in G){
-          graph.addNode(myNotes[nt].title);
-      }
-      for(u in G){
-          for(v of G[u]){
-              graph.addEdge(myNotes[u].title, myNotes[v].title);
-          }
-      }
-      graph.refresh();
-
-  }
-};
+module.exports = showGraph;
 
