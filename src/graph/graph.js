@@ -12,6 +12,7 @@ class Graph {
      */
     constructor(selector) {
         this._graph = echarts.init(document.querySelector("#graph-container"));
+        this._graph.showLoading();
         this._nodes = [];
         this._edges = [];
         this._option = {
@@ -38,7 +39,9 @@ class Graph {
      * @memberof Graph
      */
     refresh() {
+        this._graph.showLoading();
         this._graph.setOption(this._option);
+        this._graph.hideLoading();
     }
     
     /**
