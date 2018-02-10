@@ -1,26 +1,19 @@
-const Evernote = require('evernote');
-const devToken = require('../../config.json').developerToken;
-const {EvernoteAccount} = require('./evernote-account.js');
 var nodeConsole = require('console');
+
 var myConsole = new nodeConsole.Console(process.stdout, process.stderr);
 
-function getInAppLink(noteId, uid, shardId) {
-    return `evernote:///view/${uid}/${shardId}/${noteId}/${noteId}/`;
-}
-
-function showGraph(graph) {
+function notes2graph(graph, account) {
     var G = {};
-    var client = new Evernote.Client({ token:devToken });
+    var account = account;
     var uid, shardId;
-    var account = new EvernoteAccount(client.getUserStore(),client.getNoteStore());
     var notebooks = {};
     var myNotes = {};
-    client.getUserStore().getUser().then(user => {
+    account.getUserStore().getUser().then(user => {
         uid = user.id;
         shardId = user.shardId;
         console.log(uid);
         console.log(shardId);
-        client.getNoteStore().listNotebooks().then(nbs => {
+        account.getNoteStore().listNotebooks().then(nbs => {
             for(nb of nbs) {
                 notebooks[nb.guid] = nb.name;
             }
@@ -45,6 +38,10 @@ function showGraph(graph) {
     });
 }
 
+function getInAppLink(noteId, uid, shardId) {
+    return `evernote:///view/${uid}/${shardId}/${noteId}/${noteId}/`;
+}
+
 function drawGraph(graph, G, myNotes) {
     myConsole.log(G);
     myConsole.log(graph);
@@ -64,5 +61,7 @@ function drawGraph(graph, G, myNotes) {
 }
 
 
-module.exports = showGraph;
+module.exports = {
+    notes2graph: notes2graph
+};
 

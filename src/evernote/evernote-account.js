@@ -55,6 +55,25 @@ class EvernoteAccount {
             }
         })
     }
+
+    /**
+     * Get noteStore
+     * @returns {Evernote.NoteStore} The noteStore of current account.
+     * @memberof EvernoteAccount
+     */
+    getNoteStore() {
+        return this._noteStore;
+    }
+
+    /**
+     * Get userStore
+     * @returns {Evernote.UserStore} The userStore of current account
+     * @memberof EvernoteAccount
+     */
+    getUserStore() {
+        return this._userStore;
+    }
+
 }
 
 module.exports = {
