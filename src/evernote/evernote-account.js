@@ -40,7 +40,7 @@ class EvernoteAccount {
             for (let note of notelist.notes) {
                 // Find and store one single note
                 var promise = this._noteStore.getNoteWithResultSpec(note['guid'], noteSpec).then(nt => {
-                    for (let attr of ['title', 'content', 'tagGuids', 'tagNames']) {
+                    for (let attr of ['title', 'content', 'tagGuids', 'tagNames', 'notebookGuid']) {
                         if (typeof notes[nt.guid] === 'undefined') {
                             notes[nt.guid] = {};
                         }
