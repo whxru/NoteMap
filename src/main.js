@@ -21,6 +21,7 @@ app.on('ready', () => {
     }));
 
     // mainWindow.openDevTools();
+    mainWindow.webContents.openDevTools();
 
     mainWindow.on('closed', () => {
         mainWindow = null;
