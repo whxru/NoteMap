@@ -9,7 +9,7 @@
 </head>
 <body>
     <nav>
-        <div id="menu-btn" class="z-depth-2"><i class="material-icons">menu</i><span>MENU</span></div>
+        <div id="menu-btn" class="z-depth-2" data-activates="slide-out"><i class="material-icons">menu</i><span>MENU</span></div>
         <div id="title">- NoteMap -</div>
         <div>
             <span id="min"><i class="material-icons">remove</i></span>
@@ -17,6 +17,25 @@
             <span id="close"><i class="material-icons">close</i></span>
         </div>
     </nav>
+
+    <ul id="slide-out" class="side-nav">
+        <li>
+            <div class="user-view">
+                <div class="background">
+                    <img src="../resources/user-back.jpg">
+                </div>
+                <a href="#!user">
+                    <img id="user-icon" class="circle" src="../resources/default-user-icon.png">
+                </a>
+                <a href="#!name">
+                    <span id="user-name" class="white-text name">John Doe</span>
+                </a>
+                <a href="#!email">
+                    <span id="user-email" class="white-text email">jdandturk@gmail.com</span>
+                </a>
+            </div>
+        </li>
+    </ul>
     
     <div id="graph-container"></div>
     
