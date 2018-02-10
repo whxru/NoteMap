@@ -8,11 +8,11 @@ require('echarts/lib/chart/graph')
 class Graph {
     /**
      * Creates an instance of Graph.
-     * @param {string} containerId - Element ID of the container 
+     * @param {string} selector - Selector of the container 
      * @memberof Graph
      */
-    constructor(containerId) {
-        this._graph = echarts.init(document.getElementById(containerId));
+    constructor(selector) {
+        this._graph = echarts.init(document.querySelector(selector));
         this._nodes = [];
         this._edges = [];
         this._option = {
