@@ -5,6 +5,6 @@ const { Graph } = require('./graph/graph');
 
 buildWindow();
 buildMenu(null);
-var graph = new Graph('graph-container');
+var graph = new Graph('#graph-container');
 var showGraph = require('./evernote/evernote-note.js');
 showGraph(graph);

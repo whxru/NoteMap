@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "echarts": "^4.0.2",
+    "evernote": "^2.0.5",
     "materialize-css": "^0.100.2"
   }
 }
