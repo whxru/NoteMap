@@ -47,9 +47,21 @@ nav {
 }
 
 /* Graph */
-#graph-container {
-    background-color: white;
+#graph-container { background-color: white; }
+
+/* Side Nav */
+.side-nav .collapsible-body {
+    padding-left: 16px;
+    background-color: #f2f2f2;
 }
+.side-nav::-webkit-scrollbar { width: 2px; }
+.side-nav::-webkit-scrollbar-thumb { background-color: darkgrey; }
+.side-nav li.active { background-color: rgba(0, 0, 0, 0); }
+
+#user-icon { background-color: white; }
+#user-name,
+#user-email { text-shadow: 1px 1px 2px black; }
+
 
 /* Navigator */
 nav {
@@ -61,9 +73,8 @@ nav {
     border-bottom: 2px solid rgb(230, 235, 233);
     color: rgb(35, 42, 39);
 }
-nav > div {
-    height: 100%;
-}
+nav > div { height: 100%; }
+
 
 #menu-btn {
     display: flex;
@@ -71,8 +82,8 @@ nav > div {
     align-items: center;
     
     color: white;
-    background-color: rgb(2, 195, 134);
-    transition: all 0.5s;
+    background-color: rgb(45, 190, 95);
+    transition: all 0.3s;
     padding: 0px 25px;
 }
 #menu-btn > i { margin-right: 5px; }
@@ -97,11 +108,7 @@ nav > div:last-child > span {
 #menu-btn:hover,
 nav > div:last-child > span:hover{
     cursor: pointer;
-    box-shadow: 0 6px 10px 0 rgba(0,0,0,0.14), 0 1px 18px 0 rgba(0,0,0,0.12), 0 3px 5px -1px rgba(0,0,0,0.3);
+    box-shadow: 0 16px 24px 2px rgba(0,0,0,0.14), 0 6px 30px 5px rgba(0,0,0,0.12), 0 8px 10px -5px rgba(0,0,0,0.3);
 }
-#close:hover {
-    background-color: rgb(255, 76, 88);
-}
-#close:hover > i {
-    color: white;
-}
+#close:hover { background-color: rgb(255, 76, 88); }
+#close:hover > i { color: white; }
