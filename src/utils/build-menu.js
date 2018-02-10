@@ -36,7 +36,7 @@ function addDivider(root) {
 module.exports = {
     buildMenu: account => {
         $('#menu-btn').sideNav();
-        buildFromTemplate(document.querySelector("#slide-out"), require('./menu-template').menuTemplate(null));
+        buildFromTemplate(document.querySelector("#slide-out"), require('./menu-template').menuTemplate(account));
         $('.collapsible').collapsible();
     }
 };
