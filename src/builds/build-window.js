@@ -1,16 +1,16 @@
-function bindCloseBtn(win) {
+function activateCloseBtn(win) {
     document.getElementById('close').onclick = evt => {
         win.close();
     };
 }
 
-function bindMinBtn(win) {
+function activateMinBtn(win) {
     document.getElementById('min').onclick = evt => {
         win.minimize();
     };
 }
 
-function bindMaxBtn(win) {
+function activateMaxBtn(win) {
     document.getElementById('max').onclick = evt => {
         if (win.isMaximized()) {
             win.unmaximize();
@@ -23,8 +23,8 @@ function bindMaxBtn(win) {
 module.exports = {
     buildWindow: () => {
         let win = require('electron').remote.getCurrentWindow();
-        bindMinBtn(win);
-        bindMaxBtn(win);
-        bindCloseBtn(win);
+        activateMinBtn(win);
+        activateMaxBtn(win);
+        activateCloseBtn(win);
     }
 }
