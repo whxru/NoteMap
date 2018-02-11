@@ -20,7 +20,6 @@ app.on('ready', () => {
         slashes: true
     }));
 
-    console.log(process.env.NODE_ENV);
     if(process.env.NODE_ENV === 'development') {
         mainWindow.openDevTools();
     }
