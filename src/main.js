@@ -20,7 +20,7 @@ app.on('ready', () => {
         slashes: true
     }));
 
-    // mainWindow.openDevTools();
+    mainWindow.openDevTools();
 
     mainWindow.on('closed', () => {
         mainWindow = null;

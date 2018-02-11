@@ -72,9 +72,13 @@ nav {
     background-color: rgb(242, 245, 244);
     border-bottom: 2px solid rgb(230, 235, 233);
     color: rgb(35, 42, 39);
-}
-nav > div { height: 100%; }
 
+    -webkit-app-region: drag;
+}
+
+#menu-btn,
+nav > div:last-child { -webkit-app-region: no-drag; }
+nav > div { height: 100%; }
 
 #menu-btn {
     display: flex;
