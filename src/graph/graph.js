@@ -12,7 +12,6 @@ class Graph {
      */
     constructor(selector) {
         this._graph = echarts.init(document.querySelector("#graph-container"));
-        this._graph.showLoading();
         this._nodes = [];
         this._edges = [];
         this._option = {
@@ -32,8 +31,13 @@ class Graph {
                 }
             ]
         };
+        
+        this._graph.showLoading();
+        require('electron').remote.getCurrentWindow().on('resize', () => {
+            this._graph.resize();
+        });
     };
-
+    
     /**
      * Shows or updates the graph.
      * @memberof Graph
