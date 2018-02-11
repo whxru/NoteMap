@@ -37,22 +37,28 @@ class EvernoteAccount {
             includeContent: true
         });
         return this._noteStore.findNotesMetadata(filter, 0, 500, noteListSpec).then(notelist => {
-            for (let note of notelist.notes) {
-                // Find and store one single note
-                var promise = this._noteStore.getNoteWithResultSpec(note['guid'], noteSpec).then(nt => {
-                    for (let attr of ['title', 'content', 'tagGuids', 'tagNames', 'notebookGuid']) {
-                        if (typeof notes[nt.guid] === 'undefined') {
-                            notes[nt.guid] = {};
+            if(notelist.notes.length <= 0) return;
+            var index = 0;
+            var promise = Promise.resolve(notes);
+
+            // Get every note's content in a "promise chain"
+            do {
+                let idx = index; // Instant number in closure
+                promise = promise.then(notes => {
+                    var note = notelist.notes[idx];
+                    return this._noteStore.getNoteWithResultSpec(note['guid'], noteSpec).then(nt => {
+                        for (let attr of ['title', 'content', 'tagGuids', 'tagNames', 'notebookGuid']) {
+                            if (typeof notes[nt.guid] === 'undefined') {
+                                notes[nt.guid] = {};
+                            }
+                            notes[nt.guid][attr] = nt[attr];
                         }
-                        notes[nt.guid][attr] = nt[attr];
-                    }
-                    return notes;
+                        return notes;
+                    });
                 });
-                // Finish storing the last note
-                if (notelist.notes[notelist.notes.length - 1]['guid'] === note['guid']) {
-                    return promise;
-                }
-            }
+            } while (index++ < notelist.notes.length - 1);
+
+            return promise;
         })
     }
 
