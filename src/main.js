@@ -20,7 +20,10 @@ app.on('ready', () => {
         slashes: true
     }));
 
-    mainWindow.openDevTools();
+    console.log(process.env.NODE_ENV);
+    if(process.env.NODE_ENV === 'development') {
+        mainWindow.openDevTools();
+    }
 
     mainWindow.on('closed', () => {
         mainWindow = null;

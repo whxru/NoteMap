@@ -4,11 +4,15 @@
   "version": "0.1.0",
   "main": "src/main.js",
   "scripts": {
-    "start": "electron ."
+    "start": "cross-env NODE_ENV=production electron .",
+    "test": "cross-env NODE_ENV=development electron ."
   },
   "dependencies": {
     "echarts": "^4.0.2",
     "evernote": "^2.0.5",
     "materialize-css": "^0.100.2"
+  },
+  "devDependencies": {
+    "cross-env": "^5.1.3"
   }
 }
