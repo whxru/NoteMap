@@ -1,4 +1,4 @@
-function notes2graph(graph, account) {
+function notes2graph(account, graph) {
     var G = {};
     var account = account;
     var uid, shardId;
