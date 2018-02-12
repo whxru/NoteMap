@@ -29,16 +29,23 @@ class Graph {
                 feature:{
                     saveAsImage: {
                         show: true,
-                        title:'Save as image'
+                        title:'Image'
                     }
-                }
+                },
+                iconStyle: {
+                    borderWidth: 2
+                },
+                bottom: 20,
+                right: 20
             },
             series: [
                 {
                     name: 'NoteMap',
                     type: 'graph',
                     layout: 'circular',
-                    roam: false,
+                    left: 'center',
+                    top: 'middle',
+                    roam: true,
                     focusNodeAdjacency: true,
                     label: {
                         show: true
@@ -50,7 +57,6 @@ class Graph {
         };
         
         this._init();
-        
     };
     
     /**
@@ -119,6 +125,7 @@ class Graph {
     _autoResize() {
         require('electron').remote.getCurrentWindow().on('resize', () => {
             this._graph.resize();
+            this.refresh();
         });
     }
 
