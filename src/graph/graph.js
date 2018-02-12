@@ -46,9 +46,13 @@ class Graph {
                     left: 'center',
                     top: 'middle',
                     roam: true,
-                    focusNodeAdjacency: true,
+                    // focusNodeAdjacency: true,
                     label: {
-                        show: true
+                        normal: {
+                            show: true,
+                            position: 'right',
+                            formatter: '{b}'
+                        }
                     },
                     nodes: this._nodes,
                     edges: this._edges
@@ -71,20 +75,22 @@ class Graph {
     
     /**
      * Adds a node to current graph.
-     * @param {string} name - Identifier of the node
+     * @param {string} id - Identifier of the node
+     * @param {string} name - Name of the node
      * @param {object} opts 
      * @param {function} opts.click - Handler of clicking the node
      * @returns {Graph} For cascading call of methods
      * @memberof Graph
      */
-    addNode(name, opts) {
+    addNode(id, name, opts) {
         var node = {
+            id: id,
             name: name,
-            symbolSize: 60
+            symbolSize: 20,
         };
         
         if(opts) {
-            if('click' in opts) { this._clickHandler[name] = opts.click; }
+            if('click' in opts) { this._clickHandler[id] = opts.click; }
         }
         
         this._nodes.push(node);
@@ -94,8 +100,8 @@ class Graph {
     
     /**
      * Adds an edge to current graph.
-     * @param {string} sourceNode - Name of node which the edge starts from
-     * @param {string} targetNode - Name of node which the edge ends with
+     * @param {string} sourceNode - ID of node which the edge starts from
+     * @param {string} targetNode - ID of node which the edge ends with
      * @param {object} opts 
      * @param {function} opts.click - Handler of clicking the edge
      * @returns {Graph} For cascading call of methods
@@ -104,7 +110,7 @@ class Graph {
     addEdge(sourceNode, targetNode, opts) {
         var edge = {
             source: sourceNode,
-            target: targetNode
+            target: targetNode,
         };
         
         if(opts) {
@@ -131,7 +137,16 @@ class Graph {
 
     _listenItemClick() {
         this._graph.on('click', args => {
-            if(args.name in this._clickHandler) {
+            var id = args.data.id;
+            // Click node
+            if(id && id in this._clickHandler) {
+                this._clickHandler[id](args);
+            }
+
+            // Click edge
+            var source = args.data.source;
+            var target = args.data.target;
+            if(source && args.name in this._clickHandler) {
                 this._clickHandler[args.name](args);
             }
         });
