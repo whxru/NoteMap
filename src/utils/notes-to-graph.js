@@ -3,7 +3,6 @@ function notes2graph(account, graph) {
     var account = account;
     var uid, shardId;
     var notebooks = {};
-    var myNotes = {};
     account.getUserStore().getUser().then(user => {
         uid = user.id;
         shardId = user.shardId;
@@ -33,11 +32,11 @@ function getInAppLink(noteId, uid, shardId) {
 
 function drawGraph(graph, G, myNotes) {
     for(v in G){
-        graph.addNode(myNotes[v].title);
+        graph.addNode(v, myNotes[v].title);
     }
     for(u in G){
         for(v of G[u]){
-            graph.addEdge(myNotes[u].title, myNotes[v].title);
+            graph.addEdge(u, v);
         }
     }
    graph.refresh();
