@@ -1,12 +1,13 @@
-const { shell } = require('electron');
+const { shell,ipcRenderer } = require('electron');
 const { Graph } = require('../graph/graph');
 const { notes2graph } = require('../utils/notes-to-graph');
 
 module.exports = {
-    buildGraph: account => {
+    buildGraph: () => {
         var graph = new Graph();
-        notes2graph(account).then(({ G,notes }) => {
-            console.log(notes);
+        ipcRenderer.send('get-all-notes');
+        ipcRenderer.on('all-notes', (evt, notes) => {
+            var G = notes2graph(notes);
             for (v in G) {
                 graph.addNode(v, notes[v].title, {
                     category: notes[v].notebookGuid,
@@ -22,6 +23,5 @@ module.exports = {
             }
             graph.refresh();
         });
-
     }
 }
