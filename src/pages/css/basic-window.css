@@ -3,7 +3,7 @@
   font-family: 'Material Icons';
   font-style: normal;
   font-weight: 400;
-  src: url('../resources/material-icon.woff2') format('woff2');
+  src: url('../fonts/material-icon.woff2') format('woff2');
 }
 
 .material-icons {
@@ -35,20 +35,6 @@ nav i.material-icons {
     line-height: 45px;
 }
 
-
-/* Layout of the app */
-nav {
-    width: 100vw;
-    height: 45px;
-}
-#graph-container {
-    width: 100vw;
-    height: calc(100vh - 47px);
-}
-
-/* Graph */
-#graph-container { background-color: white; }
-
 /* Side Nav */
 .side-nav .collapsible-body {
     padding-left: 16px;
@@ -69,6 +55,8 @@ nav {
     box-sizing: content-box;
     justify-content: space-between;
 
+    width: 100vw;
+    height: 45px;
     background-color: rgb(242, 245, 244);
     border-bottom: 2px solid rgb(230, 235, 233);
     color: rgb(35, 42, 39);

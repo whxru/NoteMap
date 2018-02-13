@@ -1,5 +1,5 @@
 module.exports = {
-    menuTemplate: (account) => {
+    template: (account) => {
         return [
             {
                 icon: "filter_drama",
