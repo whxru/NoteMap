@@ -36,29 +36,34 @@ class EvernoteAccount {
         var noteSpec = new Evernote.NoteStore.NoteResultSpec({
             includeContent: true
         });
-        return this._noteStore.findNotesMetadata(filter, 0, 500, noteListSpec).then(notelist => {
-            if(notelist.notes.length <= 0) return;
-            var index = 0;
-            var promise = Promise.resolve(notes);
-
-            // Get every note's content in a "promise chain"
-            do {
-                let idx = index; // Instant number in closure
-                promise = promise.then(notes => {
-                    var note = notelist.notes[idx];
-                    return this._noteStore.getNoteWithResultSpec(note['guid'], noteSpec).then(nt => {
-                        for (let attr of ['title', 'content', 'tagGuids', 'tagNames', 'notebookGuid']) {
-                            if (typeof notes[nt.guid] === 'undefined') {
-                                notes[nt.guid] = {};
+        return this._userStore.getUser().then(user => {
+            var uid = user.id;
+            var shardId = user.shardId;
+            return this._noteStore.findNotesMetadata(filter, 0, 500, noteListSpec).then(notelist => {
+                if(notelist.notes.length <= 0) return;
+                var index = 0;
+                var promise = Promise.resolve(notes);
+                
+                // Get every note's content in a "promise chain"
+                do {
+                    let idx = index; // Instant number in closure
+                    promise = promise.then(notes => {
+                        var note = notelist.notes[idx];
+                        return this._noteStore.getNoteWithResultSpec(note['guid'], noteSpec).then(nt => {
+                            for (let attr of ['title', 'content', 'tagGuids', 'tagNames', 'notebookGuid']) {
+                                if (typeof notes[nt.guid] === 'undefined') {
+                                    notes[nt.guid] = {};
+                                }
+                                notes[nt.guid][attr] = nt[attr];
                             }
-                            notes[nt.guid][attr] = nt[attr];
-                        }
-                        return notes;
+                            notes[nt.guid]['link'] = EvernoteAccount.inAppLink(nt.guid, uid, shardId);
+                            return notes;
+                        });
                     });
-                });
-            } while (index++ < notelist.notes.length - 1);
-
-            return promise;
+                } while (index++ < notelist.notes.length - 1);
+                
+                return promise;
+            })
         })
     }
 
@@ -78,6 +83,10 @@ class EvernoteAccount {
      */
     getUserStore() {
         return this._userStore;
+    }
+
+    static inAppLink(noteGuid, uid, shardId) {
+        return `evernote:///view/${uid}/${shardId}/${noteGuid}/${noteGuid}/`;
     }
 
 }
