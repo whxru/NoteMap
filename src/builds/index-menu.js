@@ -1,35 +1,17 @@
+const { BrowserWindow } = require('electron').remote;
+
 module.exports = {
     template: (account) => {
         return [
             {
-                icon: "filter_drama",
-                label: "MENUITEM 1",
-                submenu: [
-                    {
-                        icon: "access_alarm",
-                        label: "Alarm",
-                        click: () => {
-                            console.log("Alarm!");
-                            $('.button-collapse').sideNav('hide');
-                        }
-                    },
-                    {
-                        icon: "adb",
-                        label: "Debug",
-                        click: () => { $('.button-collapse').sideNav('hide'); }
-                    }
-
-                ]
-            },
-            {
-                icon: "archive",
-                label: "MENUITEM 2",
+                icon: "add",
+                label: "创建笔记",
                 click: () => { $('.button-collapse').sideNav('hide'); }
             },
             "Divider",
             {
-                icon: "attach_file",
-                label: "MENUITEM 3",
+                icon: "exit_to_app",
+                label: "返回",
                 click: () => { $('.button-collapse').sideNav('hide'); }
             }
         ]
