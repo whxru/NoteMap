@@ -78,6 +78,7 @@ class Graph {
      * @param {string} id - Identifier of the node
      * @param {string} name - Name of the node
      * @param {object} opts 
+     * @param {string} opts.category - Category of this node
      * @param {function} opts.click - Handler of clicking the node
      * @returns {Graph} For cascading call of methods
      * @memberof Graph
@@ -91,6 +92,7 @@ class Graph {
         
         if(opts) {
             if('click' in opts) { this._clickHandler[id] = opts.click; }
+            if('category' in opts) { node.category = opts.category; }
         }
         
         this._nodes.push(node);
