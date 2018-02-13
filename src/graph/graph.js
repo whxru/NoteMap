@@ -1,3 +1,4 @@
+const { generateOption } = require('./graph-option');
 const echarts = require('echarts/lib/echarts');
 require('echarts/lib/chart/graph');
 require("echarts/lib/component/tooltip");
@@ -13,52 +14,11 @@ class Graph {
      * @memberof Graph
      */
     constructor(selector) {
-        this._graph = echarts.init(document.querySelector("#graph-container"));
+        this._chart = echarts.init(document.querySelector("#graph-container"));
         this._nodes = [];
         this._edges = [];
         this._clickHandler = {};
-        this._option = {
-            animationDuration: 1500,
-            animationEasingUpdate: 'quinticInOut',
-            tooltip: {
-                show: true,
-                triggerOn: 'mousemove|click',
-                enterable: true
-            },
-            toolbox:{
-                feature:{
-                    saveAsImage: {
-                        show: true,
-                        title:'Image'
-                    }
-                },
-                iconStyle: {
-                    borderWidth: 2
-                },
-                bottom: 20,
-                right: 20
-            },
-            series: [
-                {
-                    name: 'NoteMap',
-                    type: 'graph',
-                    layout: 'circular',
-                    left: 'center',
-                    top: 'middle',
-                    roam: true,
-                    // focusNodeAdjacency: true,
-                    label: {
-                        normal: {
-                            show: true,
-                            position: 'right',
-                            formatter: '{b}'
-                        }
-                    },
-                    nodes: this._nodes,
-                    edges: this._edges
-                }
-            ]
-        };
+        this._option = generateOption(this._nodes, this._edges);
         
         this._init();
     };
@@ -69,7 +29,7 @@ class Graph {
      */
     refresh() {
         this._showLoading();
-        this._graph.setOption(this._option);
+        this._chart.setOption(this._option);
         this._hideLoading();
     }
     
@@ -132,13 +92,13 @@ class Graph {
 
     _autoResize() {
         require('electron').remote.getCurrentWindow().on('resize', () => {
-            this._graph.resize();
+            this._chart.resize();
             this.refresh();
         });
     }
 
     _listenItemClick() {
-        this._graph.on('click', args => {
+        this._chart.on('click', args => {
             var id = args.data.id;
             // Click node
             if(id && id in this._clickHandler) {
@@ -156,11 +116,11 @@ class Graph {
     }
 
     _showLoading() {
-        this._graph.showLoading();
+        this._chart.showLoading();
     }
 
     _hideLoading() {
-        this._graph.hideLoading();
+        this._chart.hideLoading();
     }
 }
 
