@@ -46,4 +46,28 @@ function initMessages() {
             evt.sender.send('all-notes', notes);
         })
     })
+
+    ipcMain.on('click-create-note', evt => {
+        // Open an edit page
+        var win = new BrowserWindow({
+            width: 600,
+            height: 900,
+            frame: false,
+            hasShadow: true,
+            parent: mainWindow
+        });
+        win.loadURL(url.format({
+            pathname: path.join(__dirname, 'pages/edit.html'),
+            protocolo: 'file:',
+            slashes: true
+        }));
+
+        // to-do: get and send note/notebook list to win.
+        win.webContents.on('did-finish-load', () => {
+            win.webContents.send('init-note', {
+                title: 'New Note',
+                content: ''
+            })
+        })
+    })
 }
