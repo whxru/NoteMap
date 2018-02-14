@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>Edit</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.min.js" onload="window.Hammer = module.exports;"></script>
+    <link rel="stylesheet" href="../../node_modules/materialize-css/dist/css/materialize.min.css">
+    <link rel="stylesheet" href="css/basic-window.css" />
+    <link rel="stylesheet" href="css/edit.css" />
+</head>
+
+<body>
+    <nav>
+        <div id="menu-btn" class="z-depth-2" data-activates="slide-out">
+            <i class="material-icons">menu</i>
+            <span>MENU</span>
+        </div>
+        <div id="title">- Edit -</div>
+        <div>
+            <span id="min">
+                <i class="material-icons">remove</i>
+            </span>
+            <span id="max">
+                <i class="material-icons">crop_free</i>
+            </span>
+            <span id="close">
+                <i class="material-icons">close</i>
+            </span>
+        </div>
+    </nav>
+
+    <ul id="slide-out" class="side-nav">
+        <li>
+            <div class="user-view">
+                <div class="background">
+                    <img src="img/user-back.jpg">
+                </div>
+                <a href="#!user">
+                    <img id="user-icon" class="circle" src="img/default-user-icon.png">
+                </a>
+                <a href="#!name">
+                    <span id="user-name" class="white-text name">John Doe</span>
+                </a>
+                <a href="#!email">
+                    <span id="user-email" class="white-text email">jdandturk@gmail.com</span>
+                </a>
+            </div>
+        </li>
+    </ul>
+
+    <div id="editor"></div>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="../../node_modules/materialize-css/dist/js/materialize.min.js"></script>
+    <script src="js/edit.js"></script>
+</body>
+
+</html>
