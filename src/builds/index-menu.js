@@ -1,4 +1,4 @@
-const { BrowserWindow } = require('electron').remote;
+const { ipcRenderer } = require('electron');
 
 module.exports = {
     template: (account) => {
@@ -6,7 +6,10 @@ module.exports = {
             {
                 icon: "add",
                 label: "创建笔记",
-                click: () => { $('.button-collapse').sideNav('hide'); }
+                click: () => {
+                    ipcRenderer.send('click-create-note');
+                    $('.button-collapse').sideNav('hide');
+                }
             },
             "Divider",
             {
