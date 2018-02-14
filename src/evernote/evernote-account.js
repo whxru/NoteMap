@@ -67,6 +67,50 @@ class EvernoteAccount {
         })
     }
 
+
+    /**
+     * Get notes in a form of tree.
+     * @returns {promise} Promise object reprsents the relationships among notebooks and notes .
+     * @memberof EvernoteAccount
+     */
+    getNoteTree() {
+        var noteTree = {};
+        return this._noteStore.listNotebooks().then(notebooks => {
+            for (let notebook of notebooks) {
+                noteTree[notebook.name] = {
+                    guid: notebook.guid,
+                    notes: {}
+                };
+            }
+
+            var index = 0;
+            var promise = Promise.resolve(noteTree);
+
+            do {
+                let idx = index;
+                promise = promise.then(noteTree => {
+                    var noteFilter = new Evernote.NoteStore.NoteFilter({
+                        notebookGuid: notebooks[idx].guid
+                    });
+                    var spec = new Evernote.NoteStore.NotesMetadataResultSpec({
+                        includeTitle: true,
+                        includeNotebookGuid: true
+                    });
+                    // Get notes in a notebook
+                    return this._noteStore.findNotesMetadata(noteFilter, 0, 250, spec).then(notesMetadataList => {
+                        for (let note of notesMetadataList.notes) {
+                            noteTree[notebooks[idx].name].notes[note.title] = {
+                                guid: note.guid
+                            }
+                        }
+                        return noteTree;
+                    });
+                });
+            } while (index++ < notebooks.length - 1)
+
+            return promise;
+        })
+    }
     /**
      * Get noteStore
      * @returns {Evernote.NoteStore} The noteStore of current account.
