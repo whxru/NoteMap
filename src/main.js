@@ -62,11 +62,14 @@ function initMessages() {
             slashes: true
         }));
 
-        // to-do: get and send note/notebook list to win.
         win.webContents.on('did-finish-load', () => {
-            win.webContents.send('init-note', {
+            win.webContents.send('init-editor', {
                 title: 'New Note',
                 content: ''
+            })
+
+            account.getNoteTree().then( noteTree => {
+                win.webContents.send('note-tree', noteTree);
             })
         })
     })
