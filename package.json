@@ -9,8 +9,7 @@
   },
   "dependencies": {
     "echarts": "^4.0.2",
-    "evernote": "^2.0.5",
-    "materialize-css": "^0.100.2"
+    "evernote": "^2.0.5"
   },
   "devDependencies": {
     "cross-env": "^5.1.3"
