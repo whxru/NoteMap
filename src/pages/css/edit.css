@@ -3,5 +3,7 @@
     height: calc(100vh - 47px);
 }
 
-/* Graph */
-#editor { background-color: white; }
+/* Editor */
+.CodeMirror {
+    font-family: Roboto, SimHei, sans-serif;
+}

@@ -6,6 +6,8 @@
     <title>Edit</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.min.js" onload="window.Hammer = module.exports;"></script>
     <link rel="stylesheet" href="../../node_modules/materialize-css/dist/css/materialize.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.34.0/codemirror.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.34.0/theme/monokai.min.css">
     <link rel="stylesheet" href="css/basic-window.css" />
     <link rel="stylesheet" href="css/edit.css" />
 </head>
@@ -49,10 +51,12 @@
         </li>
     </ul>
 
-    <div id="editor"></div>
+    <textarea id="editor"></textarea>
 
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script src="../../node_modules/materialize-css/dist/js/materialize.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.34.0/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.34.0/mode/markdown/markdown.min.js"></script>
     <script src="js/edit.js"></script>
 </body>
 
