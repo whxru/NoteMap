@@ -2,6 +2,7 @@ const url = require('url');
 const path = require('path');
 const { app, BrowserWindow, ipcMain } = require('electron');
 const { accessAccount } = require('./utils/access-account');
+const { md2enml } = require('./utils/markdown-to-enml');
 
 let mainWindow, account;
 
@@ -65,12 +66,23 @@ function initMessages() {
         win.webContents.on('did-finish-load', () => {
             win.webContents.send('init-editor', {
                 title: 'New Note',
-                content: ''
+                content: '',
+                notebook: {
+                    name: "",
+                    guid: ""
+                },
+                readOnly: false
             })
 
             account.getNoteTree().then( noteTree => {
                 win.webContents.send('note-tree', noteTree);
             })
         })
+    })
+
+    ipcMain.on('create-note', (evt, editorContent) => {
+        var { title, content } = md2enml(editorContent);
+        // to-do: select notebook
+        account.createNote(title, content).then(note => { console.log(note); }).catch(reason => { console.log(reason); });
     })
 }
