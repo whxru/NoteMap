@@ -9,7 +9,8 @@
   },
   "dependencies": {
     "echarts": "^4.0.2",
-    "evernote": "^2.0.5"
+    "evernote": "^2.0.5",
+    "markdown-it": "^8.4.1"
   },
   "devDependencies": {
     "cross-env": "^5.1.3"
