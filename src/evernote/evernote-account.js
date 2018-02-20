@@ -111,6 +111,23 @@ class EvernoteAccount {
             return promise;
         })
     }
+
+    /**
+     * Create a note.
+     * @param {string} title - Title of the note
+     * @param {string} content - Content of the note
+     * @param {string} [notebookGuid=null] - The unique identifier of the notebook that contains this note
+     * @returns {promise} Promise object represents the note created
+     * @memberof EvernoteAccount
+     */
+    createNote(title, content, notebookGuid=null) {
+        return this._noteStore.createNote(new Evernote.Types.Note({
+            title: title,
+            content: content,
+            notebookGuid: notebookGuid
+        }));
+    }
+
     /**
      * Get noteStore
      * @returns {Evernote.NoteStore} The noteStore of current account.
