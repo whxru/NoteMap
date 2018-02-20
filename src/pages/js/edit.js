@@ -3,5 +3,4 @@ const { buildMenu } = require('../builds/build-menu');
 const { buildEditor } = require('../builds/build-editor');
 
 buildWindow();
-buildMenu('edit');
 buildEditor();
