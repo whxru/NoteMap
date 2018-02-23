@@ -14,6 +14,7 @@ class EvernoteAccount {
     constructor(userStore, noteStore) {
         this._userStore = userStore;
         this._noteStore = noteStore;
+        this._user = null;
     }
 
     /**
@@ -129,7 +130,23 @@ class EvernoteAccount {
     }
 
     /**
-     * Get noteStore
+     * Get the in-app-link of a note.
+     * @param {string} noteGuid - Uniduqe identifier of the note
+     * @returns {promise} Promise represents the in-app-link
+     */
+    getInAppLink(noteGuid) {
+        if(this._user) {
+            return Promise.resolve(EvernoteAccount.inAppLink(noteGuid, user.uid, user.shardId));
+        }
+
+        return this._userStore.getUser().then(user => {
+            this._user = user;
+            return EvernoteAccount.inAppLink(noteGuid, user.uid, user.shardId);
+        });
+    }
+
+    /**
+     * Get noteStore.
      * @returns {Evernote.NoteStore} The noteStore of current account.
      * @memberof EvernoteAccount
      */
@@ -138,7 +155,7 @@ class EvernoteAccount {
     }
 
     /**
-     * Get userStore
+     * Get userStore.
      * @returns {Evernote.UserStore} The userStore of current account
      * @memberof EvernoteAccount
      */
