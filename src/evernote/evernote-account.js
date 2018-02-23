@@ -1,4 +1,5 @@
 const Evernote = require('evernote');
+const { abstract } = require('./note-abstract');
 
 /**
  * Package for common methods of accessing contents in an evernote account.
@@ -83,10 +84,10 @@ class EvernoteAccount {
                     notes: {}
                 };
             }
-
+            
             var index = 0;
             var promise = Promise.resolve(noteTree);
-
+            
             do {
                 let idx = index;
                 promise = promise.then(noteTree => {
@@ -99,18 +100,54 @@ class EvernoteAccount {
                     });
                     // Get notes in a notebook
                     return this._noteStore.findNotesMetadata(noteFilter, 0, 250, spec).then(notesMetadataList => {
-                        for (let note of notesMetadataList.notes) {
-                            noteTree[notebooks[idx].name].notes[note.title] = {
-                                guid: note.guid
+                        return this.getNotesInList(notesMetadataList.notes).then(notes => {
+                            for (let note of notes) {
+                                noteTree[notebooks[idx].name].notes[note.guid] = {
+                                    title: note.title,
+                                    content: note.content,
+                                    abstract: abstract(note.content)
+                                }
                             }
-                        }
-                        return noteTree;
+                            return noteTree;
+                        });
                     });
                 });
             } while (index++ < notebooks.length - 1)
 
+            promise.catch(reason => { console.error(reason); })
             return promise;
         })
+    }
+
+    getNotesInList(notelist) {
+        var notes = [];
+        var promise = Promise.resolve(notes);
+        if (notelist.length <= 0) return promise;
+        
+        var index = 0;
+        var noteSpec = new Evernote.NoteStore.NoteResultSpec({
+            includeContent: true
+        });
+        
+        // Get every note's content in a "promise chain"
+        do {
+            let idx = index; // Instant number in closure
+            promise = promise.then(notes => {
+                var note = notelist[idx];
+                return this._noteStore.getNoteWithResultSpec(note.guid, noteSpec).then(nt => {
+                    var newNote = {};
+                    for (let attr of ['guid', 'title', 'content', 'tagGuids', 'tagNames', 'notebookGuid']) {
+                        newNote[attr] = nt[attr];
+                    }
+                    // newNote['link'] = EvernoteAccount.inAppLink(nt.guid, uid, shardId);
+                    notes.push(newNote);
+                    return notes;
+                });
+            });
+        } while (index++ < notelist.length - 1);
+
+        promise.catch(reason => { console.error(reason); })
+        return promise;
     }
 
     /**
@@ -136,12 +173,12 @@ class EvernoteAccount {
      */
     getInAppLink(noteGuid) {
         if(this._user) {
-            return Promise.resolve(EvernoteAccount.inAppLink(noteGuid, user.uid, user.shardId));
+            return Promise.resolve(EvernoteAccount.inAppLink(noteGuid, this._user.id, this._user.shardId));
         }
 
         return this._userStore.getUser().then(user => {
             this._user = user;
-            return EvernoteAccount.inAppLink(noteGuid, user.uid, user.shardId);
+            return EvernoteAccount.inAppLink(noteGuid, user.id, user.shardId);
         });
     }
 
