@@ -48,6 +48,12 @@ function initMessages() {
         })
     })
 
+    ipcMain.on('get-in-app-link', (evt, guid) => {
+        account.getInAppLink(guid).then(inAppLink => {
+            evt.sender.send('in-app-link', inAppLink);
+        });
+    })
+
     ipcMain.on('click-create-note', evt => {
         // Open an edit page
         var win = new BrowserWindow({
@@ -64,6 +70,9 @@ function initMessages() {
         }));
 
         win.webContents.on('did-finish-load', () => {
+            account.getNoteTree().then(noteTree => {
+                win.webContents.send('note-tree', noteTree);
+            })
             win.webContents.send('init-editor', {
                 title: 'New Note',
                 content: '',
@@ -72,10 +81,6 @@ function initMessages() {
                     guid: ""
                 },
                 readOnly: false
-            })
-
-            account.getNoteTree().then( noteTree => {
-                win.webContents.send('note-tree', noteTree);
             })
         })
     })
