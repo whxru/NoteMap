@@ -1,25 +1,11 @@
-const { ipcRenderer } = require('electron')
+const { ipcRenderer } = require('electron');
 const { buildMenu } = require('./build-menu');
-
-function preChar(cm, curPos) {
-    console.log(curPos);
-    if(curPos === null) return null;
-
-    var prePos = { line: curPos.line, ch: curPos.ch - 1};
-    var line = cm.getLine(prePos.line);
-    if(curPos.ch === 0) {
-        if(prePos.line === 0) return null;
-        line = cm.getLine(--prePos.line);
-        prePos.ch = line.length - 1;
-    }
-    prePos.text = line[prePos.ch];
-    console.log(prePos.text);
-    return prePos;
-}
+const { NoteSelector } = require('../utils/note-selector');
+const { preChar, nxtChar } = require('../utils/neighboring-char');
 
 module.exports = {
     buildEditor: () => {
-        let noteTree = null;
+        var noteTree = null;
 
         // Initialize the editor
         var editor = CodeMirror.fromTextArea(document.querySelector('#editor'), {
@@ -27,8 +13,11 @@ module.exports = {
             mode: "markdown"
         });
         editor.setSize('100vw', 'calc(100vh - 47px)');
-
+        
         // Listen messages from main.js
+        ipcRenderer.on('note-tree', (evt, nT) => {
+            noteTree = nT;
+        })
         ipcRenderer.once('init-editor', (evt, info) => {
             document.querySelector('#title').innerHTML = `- ${info.title} -`
             buildMenu('edit', {
@@ -36,16 +25,31 @@ module.exports = {
                 noteInfo: info
             });
         })
-        ipcRenderer.once('note-tree', (evt, nT) => {
-            noteTree = nT;
-        })
 
         editor.on('change', (cm, change) => {
-            var curPos = change.from,
+            let curPos = change.from,
                 prePos;
+            // When '@[]' has been input
             if(change.text[0].endsWith(']') && (prePos=preChar(cm, curPos)).text==='[' && preChar(cm, prePos).text==='@') {
-                // cm.addWidget()
-                console.log('Prepare to select note');
+                if(noteTree !== null) {
+                    var selector = new NoteSelector(noteTree);
+                    cm.addWidget(prePos, selector.element, true);
+                    // When a note has been chosed
+                    selector.on('selected', (guid, title) => {
+                        ipcRenderer.send('get-in-app-link', guid);
+                        ipcRenderer.once('in-app-link', (evt, inAppLink) => {
+                            var linkStr = `[@${title}](${inAppLink})`;
+                            cm.setSelection(preChar(cm, prePos), nxtChar(cm, curPos));
+                            cm.replaceSelection(linkStr);
+                            var finalPos = preChar(cm, prePos);
+                            for (let i = 0; i < linkStr.length; i++) {
+                                finalPos = nxtChar(cm, finalPos);
+                            }
+                            cm.focus();
+                            cm.setSelection(preChar(cm, prePos), finalPos);
+                        })
+                    });
+                }
             }
         })
 
