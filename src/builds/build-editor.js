@@ -34,6 +34,7 @@ module.exports = {
                 if(noteTree !== null) {
                     var selector = new NoteSelector(noteTree);
                     cm.addWidget(prePos, selector.element, true);
+                    selector.focus();
                     // When a note has been chosed
                     selector.on('selected', (guid, title) => {
                         ipcRenderer.send('get-in-app-link', guid);
@@ -49,6 +50,7 @@ module.exports = {
                             cm.setSelection(preChar(cm, prePos), finalPos);
                         })
                     });
+                    selector.on('removed', () => { cm.focus(); });
                 }
             }
         })
