@@ -7,3 +7,27 @@
 .CodeMirror {
     font-family: Roboto, SimHei, sans-serif;
 }
+
+/* Note-selector widget */
+.note-selector {
+    background-color: #f9f9f9;
+    border: 1px solid #a1a1a1;
+    width: 450px;
+    padding: 10px 0px;
+}
+.note-selector:focus { outline: none;}
+.note-selector > li {
+    display: flex;
+    justify-content: space-between;
+    padding: 0px 8px;
+}
+.note-selected,
+.note-selector > li:hover{
+    background-color: #cecece;
+    color: #303030;
+    cursor: pointer;
+}
+.note-selector span {
+    font-size: 15px;
+    color: #404040;
+}
