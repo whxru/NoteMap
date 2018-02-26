@@ -154,14 +154,16 @@ class EvernoteAccount {
      * Create a note.
      * @param {string} title - Title of the note
      * @param {string} content - Content of the note
+     * @param {Evernote.Types.Resources} resources - Object of attachments
      * @param {string} [notebookGuid=null] - The unique identifier of the notebook that contains this note
      * @returns {promise} Promise object represents the note created
      * @memberof EvernoteAccount
      */
-    createNote(title, content, notebookGuid=null) {
+    createNote(title, content, resources, notebookGuid=null) {
         return this._noteStore.createNote(new Evernote.Types.Note({
             title: title,
             content: content,
+            resources: resources,
             notebookGuid: notebookGuid
         }));
     }

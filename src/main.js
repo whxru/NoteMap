@@ -86,8 +86,7 @@ function initMessages() {
     })
 
     ipcMain.on('create-note', (evt, editorContent) => {
-        var { title, content } = md2enml(editorContent);
-        // to-do: select notebook
-        account.createNote(title, content).then(note => { console.log(note); }).catch(reason => { console.log(reason); });
+        var { title, content, resources } = md2enml(editorContent);
+        account.createNote(title, content, resources).then(note => { console.log(note); }).catch(reason => { console.log(reason); });
     })
 }
