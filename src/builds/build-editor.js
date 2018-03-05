@@ -30,8 +30,10 @@ module.exports = {
             let curPos = change.from,
                 prePos;
             // When '@[]' has been input
-            if(change.text[0].endsWith(']') && (prePos=preChar(cm, curPos)).text==='[' && preChar(cm, prePos).text==='@') {
-                if(noteTree !== null) {
+            if(change.text[0].endsWith(']')) {
+                let prePos = preChar(cm, curPos),
+                    pre2Pos = preChar(cm, curPos, 2);
+                if(prePos.text === '[' && pre2Pos.text === '@' && noteTree !== null) {
                     var selector = new NoteSelector(noteTree);
                     cm.addWidget(prePos, selector.element, true);
                     selector.focus();
@@ -40,14 +42,14 @@ module.exports = {
                         ipcRenderer.send('get-in-app-link', guid);
                         ipcRenderer.once('in-app-link', (evt, inAppLink) => {
                             var linkStr = `[@${title}](${inAppLink})`;
-                            cm.setSelection(preChar(cm, prePos), nxtChar(cm, curPos));
+                            cm.setSelection(prePos, nxtChar(cm, curPos));
                             cm.replaceSelection(linkStr);
-                            var finalPos = preChar(cm, prePos);
-                            for (let i = 0; i < linkStr.length; i++) {
+                            var finalPos = pre2Pos;
+                            for (let i = 0; i <= linkStr.length; i++) {
                                 finalPos = nxtChar(cm, finalPos);
                             }
                             cm.focus();
-                            cm.setSelection(preChar(cm, prePos), finalPos);
+                            cm.setSelection(pre2Pos, finalPos);
                         })
                     });
                     selector.on('removed', () => { cm.focus(); });
