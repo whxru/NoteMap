@@ -1,7 +1,9 @@
-const { ipcRenderer } = require('electron');
+const { ipcRenderer, clipboard } = require('electron');
 const { buildMenu } = require('./build-menu');
-const { NoteSelector } = require('../utils/note-selector');
-const { preChar, nxtChar } = require('../utils/neighboring-char');
+const { NoteSelector } = require('../editor/note-selector');
+const { preChar, nxtChar } = require('../editor/neighboring-char');
+const path = require('path');
+const addContent = require('../editor/add-content');
 
 module.exports = {
     buildEditor: () => {
@@ -30,10 +32,10 @@ module.exports = {
             let curPos = change.from,
                 prePos;
             // When '@[]' has been input
-            if(change.text[0].endsWith(']')) {
+            if (change.text[0].endsWith(']')) {
                 let prePos = preChar(cm, curPos),
                     pre2Pos = preChar(cm, curPos, 2);
-                if(prePos.text === '[' && pre2Pos.text === '@' && noteTree !== null) {
+                if (prePos.text === '[' && pre2Pos.text === '@' && noteTree !== null) {
                     var selector = new NoteSelector(noteTree);
                     cm.addWidget(prePos, selector.element, true);
                     selector.focus();
@@ -49,11 +51,29 @@ module.exports = {
                                 finalPos = nxtChar(cm, finalPos);
                             }
                             cm.focus();
-                            cm.setSelection(pre2Pos, finalPos);
+                            // cm.setSelection(pre2Pos, finalPos);
+                            cm.setSelection(pre2Pos, nxtChar(pre2Pos, linkStr.length + 1));
                         })
                     });
                     selector.on('removed', () => { cm.focus(); });
                 }
+            }
+        })
+        editor.on('paste', (cm, evt) => {
+            var img = clipboard.readImage(),
+                filepath = clipboard.read('FileNameW').replace(new RegExp(String.fromCharCode(0), 'g'), '') || clipboard.read('public.file-url').replace('file://', '');
+            if (img.isEmpty() && filepath === "") return;
+            
+            console.log('Paste file or image!');
+            evt.preventDefault();
+
+            if (filepath !== "") {
+                // File in the clipboard
+                var { name } = path.parse(filepath);
+                addContent(cm, `![${name}](${filepath})`);
+            } else {
+                // Image in the clipboard
+                addContent(cm, `![](${img.toDataURL()})`);
             }
         })
 

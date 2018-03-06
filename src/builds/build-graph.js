@@ -1,6 +1,6 @@
 const { shell,ipcRenderer } = require('electron');
 const { Graph } = require('../graph/graph');
-const { notes2graph } = require('../utils/notes-to-graph');
+const { notes2graph } = require('../graph/notes-to-graph');
 
 module.exports = {
     buildGraph: () => {
