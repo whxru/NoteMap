@@ -1,8 +1,8 @@
 const url = require('url');
 const path = require('path');
 const { app, BrowserWindow, ipcMain } = require('electron');
-const { accessAccount } = require('./utils/access-account');
-const { md2enml } = require('./utils/markdown-to-enml');
+const { accessAccount } = require('./evernote/access-account');
+const { md2enml } = require('./editor/markdown-to-enml');
 
 let mainWindow, account;
 
@@ -27,11 +27,6 @@ app.on('ready', () => {
         protocol: 'file:',
         slashes: true
     }));
-
-    // Open DevTools in development environment
-    if(process.env.NODE_ENV === 'development') {
-        mainWindow.openDevTools();
-    }
 
     // Delete objects
     mainWindow.on('closed', () => {

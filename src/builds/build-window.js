@@ -26,5 +26,9 @@ module.exports = {
         activateMinBtn(win);
         activateMaxBtn(win);
         activateCloseBtn(win);
+        // Open DevTools in development environment
+        if (process.env.NODE_ENV === 'development') {
+            win.openDevTools();
+        }
     }
 }
