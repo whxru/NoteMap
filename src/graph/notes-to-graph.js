@@ -1,4 +1,4 @@
-function notes2graph(notes) {
+module.exports = (notes) => {
     var G = {};
     for(let noteId in notes) {
         G[noteId] = [];
@@ -10,5 +10,3 @@ function notes2graph(notes) {
     }
     return G;
 }
-
-module.exports = notes2graph;

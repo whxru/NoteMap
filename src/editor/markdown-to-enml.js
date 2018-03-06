@@ -3,7 +3,7 @@ const Evernote = require('evernote');
 const fs = require('fs');
 const crypto = require('crypto');
 
-function md2enml(md) {
+module.exports = md => {
     md = md.trim();
     // Get title
     var title = md.split('\n')[0];
@@ -86,8 +86,5 @@ function handleAttachments(html) {
  * @returns - Type of file
  */
 function parseFileType (path) {
-    // return /\S+\.([^\.]+)$/.exec(path)[1];
     return require('path').parse(path).ext.substr(1);
 }
-
-module.exports = md2enml;

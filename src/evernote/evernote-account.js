@@ -1,5 +1,5 @@
 const Evernote = require('evernote');
-const { abstract } = require('./note-abstract');
+const abstract = require('./note-abstract');
 
 /**
  * Package for common methods of accessing contents in an evernote account.
@@ -241,6 +241,4 @@ class EvernoteAccount {
 
 }
 
-module.exports = {
-    EvernoteAccount: EvernoteAccount
-}
+module.exports = EvernoteAccount;

@@ -33,10 +33,8 @@ function addDivider(root) {
     root.appendChild(divider);
 }
 
-module.exports = {
-    buildMenu: (pageName, obj) => {
-        $('#menu-btn').sideNav();
-        buildFromTemplate(document.querySelector("#slide-out"), require(`./${pageName}-menu`).template(obj));
-        $('.collapsible').collapsible();
-    }
-};
+module.exports = (pageName, obj) => {
+    $('#menu-btn').sideNav();
+    buildFromTemplate(document.querySelector("#slide-out"), require(`./${pageName}-menu`).template(obj));
+    $('.collapsible').collapsible();
+}

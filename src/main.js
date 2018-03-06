@@ -1,8 +1,8 @@
 const url = require('url');
 const path = require('path');
 const { app, BrowserWindow, ipcMain } = require('electron');
-const { accessAccount } = require('./evernote/access-account');
-const { md2enml } = require('./editor/markdown-to-enml');
+const accessAccount = require('./evernote/access-account');
+const md2enml = require('./editor/markdown-to-enml');
 
 let mainWindow, account;
 

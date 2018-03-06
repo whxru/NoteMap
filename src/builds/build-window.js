@@ -20,15 +20,13 @@ function activateMaxBtn(win) {
     };
 }
 
-module.exports = {
-    buildWindow: () => {
-        let win = require('electron').remote.getCurrentWindow();
-        activateMinBtn(win);
-        activateMaxBtn(win);
-        activateCloseBtn(win);
-        // Open DevTools in development environment
-        if (process.env.NODE_ENV === 'development') {
-            win.openDevTools();
-        }
+module.exports = () => {
+    let win = require('electron').remote.getCurrentWindow();
+    activateMinBtn(win);
+    activateMaxBtn(win);
+    activateCloseBtn(win);
+    // Open DevTools in development environment
+    if (process.env.NODE_ENV === 'development') {
+        win.openDevTools();
     }
 }
