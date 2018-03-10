@@ -60,7 +60,7 @@ function initMessages() {
         });
         win.loadURL(url.format({
             pathname: path.join(__dirname, 'pages/edit.html'),
-            protocolo: 'file:',
+            protocol: 'file:',
             slashes: true
         }));
 
@@ -82,6 +82,8 @@ function initMessages() {
 
     ipcMain.on('create-note', (evt, editorContent) => {
         var { title, content, resources } = md2enml(editorContent);
+        console.log(title)
+        console.log(content)
         account.createNote(title, content, resources).then(note => { console.log(note); }).catch(reason => { console.log(reason); });
     })
 }
