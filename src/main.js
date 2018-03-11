@@ -4,7 +4,7 @@ const { app, BrowserWindow, ipcMain } = require('electron');
 const accessAccount = require('./evernote/access-account');
 const md2enml = require('./editor/markdown-to-enml');
 
-let mainWindow, account;
+let mainWindow, account, editWindow;
 
 app.on('ready', () => {
     if (mainWindow) return;
@@ -51,24 +51,24 @@ function initMessages() {
 
     ipcMain.on('click-create-note', evt => {
         // Open an edit page
-        var win = new BrowserWindow({
+        editWindow = new BrowserWindow({
             width: 600,
             height: 900,
             frame: false,
             hasShadow: true,
             parent: mainWindow
         });
-        win.loadURL(url.format({
+        editWindow.loadURL(url.format({
             pathname: path.join(__dirname, 'pages/edit.html'),
             protocol: 'file:',
             slashes: true
         }));
 
-        win.webContents.on('did-finish-load', () => {
+        editWindow.webContents.on('did-finish-load', () => {
             account.getNoteTree().then(noteTree => {
-                win.webContents.send('note-tree', noteTree);
+                editWindow.webContents.send('note-tree', noteTree);
             })
-            win.webContents.send('init-editor', {
+            editWindow.webContents.send('init-editor', {
                 title: 'New Note',
                 content: '',
                 notebook: {
@@ -84,6 +84,12 @@ function initMessages() {
         var { title, content, resources } = md2enml(editorContent);
         console.log(title)
         console.log(content)
-        account.createNote(title, content, resources).then(note => { console.log(note); }).catch(reason => { console.log(reason); });
+        account.createNote(title, content, resources).then(note => {
+            console.log(note);
+            editWindow.webContents.send("save-result", "ok");
+        }).catch(reason => {
+            console.log(reason);
+            editWindow.webContents.send("save-result", "false");
+        });
     })
 }

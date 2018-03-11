@@ -4,6 +4,8 @@ const buildMenu = require('./build-menu');
 const NoteSelector = require('../editor/note-selector');
 const path = require('path');
 const addContent = require('../editor/add-content');
+const STR_SAVING_OK = "保存成功"
+const STR_SAVING_ERROR = "保存失败"
 
 module.exports = () => {
     var noteTree = null;
@@ -75,4 +77,11 @@ module.exports = () => {
             addContent(cm, `![](${img.toDataURL()})`);
         }
     })
+    ipcRenderer.on("save-result", (evt,result) => {
+        console.log(result);
+        if(result === "ok")
+            alert(STR_SAVING_OK);
+        else
+            alert(STR_SAVING_ERROR);
+    });
 }
