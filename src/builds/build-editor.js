@@ -48,7 +48,7 @@ module.exports = () => {
                         cm.setSelection(pre2Pos, nxtChar(cm, curPos));
                         cm.replaceSelection(linkStr);
                         cm.focus();
-                        cm.setSelection(pre2Pos, nxtChar(pre2Pos, linkStr.length + 1));
+                        cm.setSelection(pre2Pos, nxtChar(cm, pre2Pos, linkStr.length + 1));
                     })
                 });
                 selector.on('removed', () => { cm.focus(); });
