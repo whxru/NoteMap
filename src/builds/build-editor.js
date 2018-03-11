@@ -45,7 +45,7 @@ module.exports = () => {
                     ipcRenderer.send('get-in-app-link', guid);
                     ipcRenderer.once('in-app-link', (evt, inAppLink) => {
                         var linkStr = `[@${title}](${inAppLink})`;
-                        cm.setSelection(prePos, nxtChar(cm, curPos));
+                        cm.setSelection(pre2Pos, nxtChar(cm, curPos));
                         cm.replaceSelection(linkStr);
                         var finalPos = pre2Pos;
                         for (let i = 0; i <= linkStr.length; i++) {
