@@ -47,12 +47,7 @@ module.exports = () => {
                         var linkStr = `[@${title}](${inAppLink})`;
                         cm.setSelection(pre2Pos, nxtChar(cm, curPos));
                         cm.replaceSelection(linkStr);
-                        var finalPos = pre2Pos;
-                        for (let i = 0; i <= linkStr.length; i++) {
-                            finalPos = nxtChar(cm, finalPos);
-                        }
                         cm.focus();
-                        // cm.setSelection(pre2Pos, finalPos);
                         cm.setSelection(pre2Pos, nxtChar(pre2Pos, linkStr.length + 1));
                     })
                 });
